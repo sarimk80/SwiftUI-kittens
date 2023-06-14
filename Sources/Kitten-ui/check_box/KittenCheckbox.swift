@@ -41,6 +41,7 @@ public struct KittenCheckbox<Content:View>:View {
                     else { EmptyView() }
                 })
                 content
+                    .padding(.leading,4)
             }
             
             

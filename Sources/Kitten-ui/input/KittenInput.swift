@@ -10,27 +10,25 @@ import SwiftUI
 public struct KittenInput<Content:View,Label:View>: View {
     @Binding private var input:String
     private var placeHolderText:String
-    let perfixView:  Content?
-    let label : Label
+    let suffixView:  Content?
     
-    public init(input: Binding<String>,placeHolderText:String = "Input",@ViewBuilder label:() -> Label ,@ViewBuilder  perfixView: () -> Content? = {EmptyView()}) {
+    public init(input: Binding<String>,placeHolderText:String = "Input",@ViewBuilder  suffixView: () -> Content? = {EmptyView()}) {
         self._input = input
         self.placeHolderText = placeHolderText
-        self.perfixView = perfixView()
-        self.label = label()
+        self.suffixView = suffixView()
     }
     
     public  var body: some View {
         HStack{
             
             TextField(text: $input, label: {
-                label
+                Text("Email")
             })
             .onChange(of: input, perform: { value in
                 print(value)
             })
-            .SimpleTextFiled {
-                perfixView
+            .KittenTextFiled {
+                suffixView
             }
 
         }
@@ -38,44 +36,49 @@ public struct KittenInput<Content:View,Label:View>: View {
     }
 }
 
-struct SimpleTextFiledModifier<PrefixView:View> : ViewModifier {
+struct SimpleTextFiledModifier<SuffixView:View> : ViewModifier {
     
-    let prefixView:() -> PrefixView
+    let suffixView:() -> SuffixView
     
-    init(prefixView: @escaping () -> PrefixView) {
-        self.prefixView = prefixView
+    init(suffixView: @escaping () -> SuffixView) {
+        self.suffixView = suffixView
     }
     
     func body(content: Content) -> some View {
         HStack{
-            
-            prefixView()
-            
             content
-                
-            
+            suffixView()
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 5).fill(Color.gray.opacity(0.2)))
-        .border(Color.gray.opacity(0.5))
-        
+        .overlay(
+               RoundedRectangle(cornerRadius: 5)
+                   .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+           )
+       
     }
 }
 
 extension View {
-    func SimpleTextFiled(@ViewBuilder prefixView: @escaping () -> some View) -> some View {
-        modifier(SimpleTextFiledModifier(prefixView: prefixView))
+   public func KittenTextFiled(@ViewBuilder suffixView: @escaping () -> some View) -> some View {
+        modifier(SimpleTextFiledModifier(suffixView: suffixView))
     }
 }
 
 struct KittenInput_Preview : PreviewProvider {
     
     static var previews: some View {
-        KittenInput(input: .constant(""),placeHolderText: "Email") {
-            Text("Input")
-        } perfixView: {
-            Text("hello")
+        
+        TextField(text: .constant("")) {
+            Text("Email")
         }
+        .KittenTextFiled {
+            Image(systemName: "square.and.arrow.up.fill")
+                .onTapGesture {
+                    print("suffix Tap")
+                }
+        }
+        .padding()
 
     }
 }

@@ -13,12 +13,14 @@ public struct SpinnerView: View {
     var lineWidth:CGFloat = 5
     var animationSpeed:Double = 0.2
     public var buttonStatus:ButtonStatus = ButtonStatus.primary
+    public var size:ViewSizeStatus = ViewSizeStatus.medium
     
-    public init(lineWidth: CGFloat = 5, animationSpeed: Double = 0.2,buttonStatus: ButtonStatus = ButtonStatus.primary) {
+    public init(lineWidth: CGFloat = 5, animationSpeed: Double = 0.2,buttonStatus: ButtonStatus = ButtonStatus.primary,size:ViewSizeStatus = ViewSizeStatus.medium) {
        
         self.lineWidth = lineWidth
         self.animationSpeed = animationSpeed
         self.buttonStatus = buttonStatus
+        self.size = size
     }
     
     public  var body: some View {
@@ -26,7 +28,7 @@ public struct SpinnerView: View {
         
             .trim(from: appear ? 0.0 : 0.1,to: appear ? 0.3 : 0.95)
             .stroke(buttonStatusToColor(buttonStatus: buttonStatus), style: StrokeStyle(lineWidth: lineWidth,lineCap: .round))
-            .frame(width: 50,height: 50)
+            .frame(width: viewSizeStatusToInt(viewSizeStatus: size),height: viewSizeStatusToInt(viewSizeStatus: size))
             .rotationEffect(Angle(degrees: isRotating))
             .animation(.linear.speed(animationSpeed).repeatForever(), value: appear)
             .onAppear {
@@ -48,6 +50,6 @@ public struct SpinnerView: View {
 struct SpinnerView_Previews: PreviewProvider {
     
     static var previews: some View {
-        SpinnerView(lineWidth: 5, animationSpeed: 0.2)
+        SpinnerView(lineWidth: 5, animationSpeed: 0.2,size: .small)
     }
 }

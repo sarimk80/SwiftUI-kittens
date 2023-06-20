@@ -19,6 +19,24 @@ public enum ButtonStatus {
     
 }
 
+public enum ViewSizeStatus {
+    case small
+    case medium
+    case large
+}
+
+public func viewSizeStatusToInt(viewSizeStatus:ViewSizeStatus) -> Double {
+    switch viewSizeStatus {
+        
+    case .small:
+        return 20.0
+    case .medium:
+        return 30.0
+    case .large:
+        return 50.0
+    }
+}
+
 public func buttonStatusToColor(buttonStatus:ButtonStatus) -> Color {
     switch buttonStatus{
         

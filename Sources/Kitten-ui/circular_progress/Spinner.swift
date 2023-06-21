@@ -15,7 +15,7 @@ public struct SpinnerView: View {
     public var buttonStatus:ButtonStatus = ButtonStatus.primary
     public var size:ViewSizeStatus = ViewSizeStatus.medium
     
-    public init(lineWidth: CGFloat = 5, animationSpeed: Double = 0.2,buttonStatus: ButtonStatus = ButtonStatus.primary,size:ViewSizeStatus = ViewSizeStatus.medium) {
+    public init(lineWidth: CGFloat = 5, animationSpeed: Double = 0.2,buttonStatus: ButtonStatus = ButtonStatus.primary,size:ViewSizeStatus = ViewSizeStatus.extrsSmall) {
        
         self.lineWidth = lineWidth
         self.animationSpeed = animationSpeed
@@ -50,6 +50,6 @@ public struct SpinnerView: View {
 struct SpinnerView_Previews: PreviewProvider {
     
     static var previews: some View {
-        SpinnerView(lineWidth: 5, animationSpeed: 0.2,size: .small)
+        SpinnerView(lineWidth: 5, animationSpeed: 0.2,size: .extrsSmall)
     }
 }

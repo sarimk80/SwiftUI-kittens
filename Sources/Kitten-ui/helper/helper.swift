@@ -20,20 +20,47 @@ public enum ButtonStatus {
 }
 
 public enum ViewSizeStatus {
+    case extrsSmall
     case small
     case medium
     case large
+    case extraLarge
+    case doubleExtraLarge
 }
 
 public func viewSizeStatusToInt(viewSizeStatus:ViewSizeStatus) -> Double {
     switch viewSizeStatus {
-        
+    
+    case .extrsSmall:
+        return 20
     case .small:
-        return 20.0
+        return 40.0
     case .medium:
-        return 30.0
+        return 60.0
     case .large:
-        return 50.0
+        return 80.0
+    case .extraLarge:
+        return 100
+    case .doubleExtraLarge:
+        return 120
+    }
+}
+
+public func sizeStatusToFont(viewSizeStatus:ViewSizeStatus) -> Font {
+    
+    switch viewSizeStatus {
+    case .extrsSmall:
+        return .caption2
+    case .small:
+        return .caption
+    case .medium:
+        return .subheadline
+    case .large:
+        return .body
+    case .extraLarge:
+        return .title3
+    case .doubleExtraLarge:
+        return .title
     }
 }
 

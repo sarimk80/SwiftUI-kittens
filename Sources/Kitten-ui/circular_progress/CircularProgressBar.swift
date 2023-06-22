@@ -31,14 +31,15 @@ public struct CircularProgressBarView: View {
                 .frame(width: viewSizeStatusToInt(viewSizeStatus: size),height: viewSizeStatusToInt(viewSizeStatus: size))
             
             Circle()
-                .trim(from: 0,to: progress)
+                .trim(from: 0,to: (progress/100))
                 .stroke(buttonStatusToColor(buttonStatus: buttonStatus).opacity(0.9), style: StrokeStyle(lineWidth: 7,lineCap: .round))
                 .frame(width: viewSizeStatusToInt(viewSizeStatus: size),height: viewSizeStatusToInt(viewSizeStatus: size))
                 .animation(.linear, value: progress)
             
-            Text("\(progress * 100,specifier: "%.0f")% ")
+            Text("\(progress,specifier: "%.0f")% ")
                 .font(sizeStatusToFont(viewSizeStatus: size))
                 .foregroundStyle(buttonStatusToColor(buttonStatus: buttonStatus))
+                .fontWeight(.semibold)
             
         }
         .onChange(of: progress, perform: { value in
@@ -50,6 +51,6 @@ public struct CircularProgressBarView: View {
 struct CircularProgressBarView_Previews: PreviewProvider {
     
     static var previews: some View {
-        CircularProgressBarView(progress: .constant(0.6))
+        CircularProgressBarView(progress: .constant(60))
     }
 }

@@ -2,7 +2,7 @@
 
 SwiftUI Kittens is a library that provides a set of customizable UI components inspired by React Native Kitten UI. It allows you to quickly and easily build beautiful user interfaces for your iOS applications using SwiftUI.
 
-![SwiftUI Kittens Demo](demo.gif)
+<img src="Sources/Kitten-ui/images/demo.png" alt="drawing" style="width:200px;"/>
 
 ## Features
 

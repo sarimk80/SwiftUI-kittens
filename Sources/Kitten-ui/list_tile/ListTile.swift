@@ -1,36 +1,53 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by sarim khan on 22/06/2023.
 //
 
 import SwiftUI
 
-public struct KittenListTileView: View {
+public struct KittenListTileView<Title,Subtitle,Leading,Trailing>: View where Title : View , Subtitle : View, Leading : View, Trailing : View {
     
     @Binding private var isDisable:Bool
     @Binding private var isSelected:Bool
+    let title : Title
+    let subtitle : Subtitle?
+    let leading : Leading?
+    let trailing : Trailing?
     
-    public  init(isDisable:Binding<Bool> = .constant(false),isSelected:Binding<Bool> = .constant(false)) {
+    public  init(isDisable:Binding<Bool> = .constant(false),isSelected:Binding<Bool> = .constant(false), @ViewBuilder title: () -> Title, @ViewBuilder subtitle: () -> Subtitle? = { EmptyView() } ,
+                 @ViewBuilder leading: () -> Leading? = { EmptyView() },
+                 @ViewBuilder trailing: () -> Trailing? = { EmptyView() }
+                 
+    ) {
         self._isDisable  = isDisable
         self._isSelected = isSelected
+        self.title = title()
+        self.subtitle = subtitle()
+        self.leading = leading()
+        self.trailing = trailing()
     }
     
     public var body: some View {
-        HStack(alignment:.top , spacing:10){
-            Image(systemName: "folder.fill")
-            VStack(alignment:.leading){
-                Text("Hello")
-                Text("Long text")
-                
+        VStack{
+            
+            HStack(alignment:.top , spacing:10){
+                leading
+                VStack(alignment:.leading,spacing: 8){
+                    title
+                    subtitle
+                        .lineLimit(1)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                }
+                Spacer()
+                trailing
             }
-            Spacer()
-            Image(systemName: "trash")
+            .customExtentionModifier(isDisable: isDisable, isSelected: isSelected)
+            
         }
-        .customExtentionModifier(isDisable: isDisable, isSelected: isSelected)
         
-
     }
 }
 
@@ -72,15 +89,35 @@ struct customModifier: ViewModifier {
 
 extension View {
     func customExtentionModifier(isDisable:Bool,isSelected:Bool) -> some View {
-       modifier(customModifier(isDisable: isDisable, isSelected: isSelected))
+        modifier(customModifier(isDisable: isDisable, isSelected: isSelected))
+    }
+    
+    public func KittenTabItem<V>(@ViewBuilder _ label: () -> V) -> some View where V : View {
+        return HStack{
+            Text("Hello")
+        }
     }
 }
+
 
 struct ListTileView_Previews: PreviewProvider {
     
     static var previews: some View {
-        KittenListTileView(isSelected: .constant(false))
-            .padding()
+        KittenListTileView(isSelected: .constant(false),title: {
+            Text("Hello title")
+        },subtitle: {
+            Text("Long text Long text Long text Long text Long text Long text Long text Long text")
+        } ,leading: {
+            Image(systemName: "shareplay")
+                .renderingMode(.template)
+                .symbolRenderingMode(.multicolor)
+                .symbolVariant(.square)
+        },trailing: {
+            Text("Delete")
+                .foregroundColor(.red)
+        }
+        )
+        .padding()
         
     }
 }
